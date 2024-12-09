@@ -1,0 +1,94 @@
+
+    {
+        "CASE-IN-ADVANCE MODELS": {
+          "completed": false,
+          "sections": {
+            "Basic Framework": {
+              "completed": false,
+              "concepts": {
+                "Model Setup": {
+                  "formula": "Max ∑β^t u(c_t)",
+                  "key_points": [
+                    "β is discount factor (0 < β < 1)",
+                    "ct represents consumption at time t",
+                    "Utility function is maximized over infinite horizon"
+                  ],
+                  "constraints": [
+                    "ct ≤ (Mt-1/Pt) + τt",
+                    "Money holdings cannot be negative",
+                    "Consumption cannot exceed available money"
+                  ]
+                },
+                "Cash-in-Advance Constraint": {
+                  "formula": "ct ≤ mt-1/(1 + πt) + τt",
+                  "key_points": [
+                    "Real money balances must cover consumption",
+                    "Money must be held before transactions",
+                    "Introduces monetary friction into the model"
+                  ],
+                  "importance": "Core mechanism linking money and real economy"
+                },
+                "Solution Characteristics": {
+                  "key_equations": [
+                    "it = μt+1/λt+1",
+                    "uc = λ(1 + i)",
+                    "Marginal utility > marginal value of income when i > 0"
+                  ],
+                  "implications": [
+                    "Nominal interest rate acts as tax on consumption",
+                    "Higher interest rates reduce consumption",
+                    "Money has real effects through CIA constraint"
+                  ]
+                }
+              }
+            },
+            "Welfare Analysis": {
+              "completed": false,
+              "concepts": {
+                "Optimal Inflation": {
+                  "key_points": [
+                    "Friedman rule optimal inflation = 0",
+                    "Welfare cost increases with inflation rate",
+                    "Trade-off between inflation and consumption"
+                  ],
+                  "formulas": {
+                    "steady_state_welfare": "u(css)/(1-β)",
+                    "welfare_cost": "Function of inflation tax"
+                  }
+                },
+                "Assessment Methods": {
+                  "key_metrics": [
+                    "Consumption equivalent variation",
+                    "Output loss from monetary friction",
+                    "Deadweight loss from inflation tax"
+                  ]
+                }
+              }
+            },
+            "Stochastic CIA Model": {
+              "completed": false,
+              "concepts": {
+                "Extended Framework": {
+                  "utility_function": "Et∑βi[c1-Φt+i/(1-Φ) + Ψ(1-nt+i)1-η/(1-η)]",
+                  "key_constraints": [
+                    "Money growth follows AR(1) process",
+                    "Production uses labor input",
+                    "Productivity shocks affect output"
+                  ],
+                  "key_equations": [
+                    "yt = αk̂t-1 + (1-α)n̂t + zt",
+                    "mt - pt = ct - (1-iss/biss)it"
+                  ]
+                },
+                "Dynamic Properties": {
+                  "key_insights": [
+                    "Money has real effects through unexpected changes",
+                    "Persistence in output depends on shock processes",
+                    "Monetary policy affects labor-leisure choice"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }

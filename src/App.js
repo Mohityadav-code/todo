@@ -2,7 +2,7 @@ import StudyTracker from "./components/StudyTracker";
 
 function App() {
   return (
-    <div className="App">
+    <div className=" w-full h-full">
     <StudyTracker />
     </div>
   );

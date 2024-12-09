@@ -1,202 +1,348 @@
-
-    {
-        "CASE-IN-ADVANCE MODELS": {
-          "completed": false,
-          "sections": {
+{
+    "CASE-IN-ADVANCE MODELS": {
+        "completed": false,
+        "sections": {
             "Basic Framework": {
-              "completed": false,
-              "concepts": {
-                "Model Setup": {
-                  "formula": "Max ∑β^t u(c_t)",
-                  "key_points": [
-                    "β is discount factor (0 < β < 1)",
-                    "ct represents consumption at time t",
-                    "Utility function is maximized over infinite horizon"
-                  ],
-                  "constraints": [
-                    "ct ≤ (Mt-1/Pt) + τt",
-                    "Money holdings cannot be negative",
-                    "Consumption cannot exceed available money"
-                  ]
-                },
-                "Cash-in-Advance Constraint": {
-                  "formula": "ct ≤ mt-1/(1 + πt) + τt",
-                  "key_points": [
-                    "Real money balances must cover consumption",
-                    "Money must be held before transactions",
-                    "Introduces monetary friction into the model"
-                  ],
-                  "importance": "Core mechanism linking money and real economy"
-                },
-                "Solution Characteristics": {
-                  "key_equations": [
-                    "it = μt+1/λt+1",
-                    "uc = λ(1 + i)",
-                    "Marginal utility > marginal value of income when i > 0"
-                  ],
-                  "implications": [
-                    "Nominal interest rate acts as tax on consumption",
-                    "Higher interest rates reduce consumption",
-                    "Money has real effects through CIA constraint"
-                  ]
+                "completed": false,
+                "concepts": {
+                    "Model Setup": {
+                        "formula": "Max ∑β^t u(c_t)",
+                        "key_points": [
+                            "β is discount factor (0 < β < 1)",
+                            "ct represents consumption at time t",
+                            "Utility function is maximized over infinite horizon"
+                        ],
+                        "constraints": [
+                            "ct ≤ (Mt-1/Pt) + τt",
+                            "Money holdings cannot be negative",
+                            "Consumption cannot exceed available money"
+                        ]
+                    },
+                    "Cash-in-Advance Constraint": {
+                        "formula": "ct ≤ mt-1/(1 + πt) + τt",
+                        "key_points": [
+                            "Real money balances must cover consumption",
+                            "Money must be held before transactions",
+                            "Introduces monetary friction into the model"
+                        ],
+                        "importance": "Core mechanism linking money and real economy"
+                    },
+                    "Solution Characteristics": {
+                        "key_equations": [
+                            "it = μt+1/λt+1",
+                            "uc = λ(1 + i)",
+                            "Marginal utility > marginal value of income when i > 0"
+                        ],
+                        "implications": [
+                            "Nominal interest rate acts as tax on consumption",
+                            "Higher interest rates reduce consumption",
+                            "Money has real effects through CIA constraint"
+                        ]
+                    }
                 }
-              }
             },
             "Welfare Analysis": {
-              "completed": false,
-              "concepts": {
-                "Optimal Inflation": {
-                  "key_points": [
-                    "Friedman rule optimal inflation = 0",
-                    "Welfare cost increases with inflation rate",
-                    "Trade-off between inflation and consumption"
-                  ],
-                  "formulas": {
-                    "steady_state_welfare": "u(css)/(1-β)",
-                    "welfare_cost": "Function of inflation tax"
-                  }
-                },
-                "Assessment Methods": {
-                  "key_metrics": [
-                    "Consumption equivalent variation",
-                    "Output loss from monetary friction",
-                    "Deadweight loss from inflation tax"
-                  ]
+                "completed": false,
+                "concepts": {
+                    "Optimal Inflation": {
+                        "key_points": [
+                            "Friedman rule optimal inflation = 0",
+                            "Welfare cost increases with inflation rate",
+                            "Trade-off between inflation and consumption"
+                        ],
+                        "formulas": {
+                            "steady_state_welfare": "u(css)/(1-β)",
+                            "welfare_cost": "Function of inflation tax"
+                        }
+                    },
+                    "Assessment Methods": {
+                        "key_metrics": [
+                            "Consumption equivalent variation",
+                            "Output loss from monetary friction",
+                            "Deadweight loss from inflation tax"
+                        ]
+                    }
                 }
-              }
             },
             "Stochastic CIA Model": {
-              "completed": false,
-              "concepts": {
-                "Extended Framework": {
-                  "utility_function": "Et∑βi[c1-Φt+i/(1-Φ) + Ψ(1-nt+i)1-η/(1-η)]",
-                  "key_constraints": [
-                    "Money growth follows AR(1) process",
-                    "Production uses labor input",
-                    "Productivity shocks affect output"
-                  ],
-                  "key_equations": [
-                    "yt = αk̂t-1 + (1-α)n̂t + zt",
-                    "mt - pt = ct - (1-iss/biss)it"
-                  ]
-                },
-                "Dynamic Properties": {
-                  "key_insights": [
-                    "Money has real effects through unexpected changes",
-                    "Persistence in output depends on shock processes",
-                    "Monetary policy affects labor-leisure choice"
-                  ]
+                "completed": false,
+                "concepts": {
+                    "Extended Framework": {
+                        "utility_function": "Et∑βi[c1-Φt+i/(1-Φ) + Ψ(1-nt+i)1-η/(1-η)]",
+                        "key_constraints": [
+                            "Money growth follows AR(1) process",
+                            "Production uses labor input",
+                            "Productivity shocks affect output"
+                        ],
+                        "key_equations": [
+                            "yt = αk̂t-1 + (1-α)n̂t + zt",
+                            "mt - pt = ct - (1-iss/biss)it"
+                        ]
+                    },
+                    "Dynamic Properties": {
+                        "key_insights": [
+                            "Money has real effects through unexpected changes",
+                            "Persistence in output depends on shock processes",
+                            "Monetary policy affects labor-leisure choice"
+                        ]
+                    }
                 }
-              }
             }
-          }
-        },
-        "SEARCH-THEORETIC MODELS": {
-            "completed": false,
-            "sections": {
-              "Foundations": {
+        }
+    },
+    "SEARCH-THEORETIC MODELS": {
+        "completed": false,
+        "sections": {
+            "Foundations": {
                 "completed": false,
                 "concepts": {
-                  "Core Frictions": {
-                    "key_points": [
-                      "Double-coincidence of wants problem",
-                      "Long-run commitment cannot be enforced",
-                      "Agent anonymity - histories not public"
-                    ],
-                    "importance": "Explains why money exists as medium of exchange"
-                  },
-                  "Model Environment": {
-                    "key_parameters": {
-                      "agents": "[0,1] continuum",
-                      "discount_rate": "r > 0",
-                      "matching_rate": "α"
+                    "Core Frictions": {
+                        "key_points": [
+                            "Double-coincidence of wants problem",
+                            "Long-run commitment cannot be enforced",
+                            "Agent anonymity - histories not public"
+                        ],
+                        "importance": "Explains why money exists as medium of exchange"
                     },
-                    "assumptions": [
-                      "Goods are non-storable",
-                      "Production cost c ≥ 0",
-                      "Random matching of agents"
-                    ]
-                  }
-                }
-              },
-              "Kiyotaki-Wright Framework": {
-                "completed": false,
-                "concepts": {
-                  "Trading Mechanism": {
-                    "probabilities": {
-                      "single_coincidence": "x",
-                      "double_coincidence": "y",
-                      "matching": "α"
-                    },
-                    "value_functions": {
-                      "with_money": "rV1 = (1-M)π(u + V0 - V1)",
-                      "without_money": "rV0 = y(1-M)(u-c) + Mπ(V1 - V0 - c)"
+                    "Model Environment": {
+                        "key_parameters": {
+                            "agents": "[0,1] continuum",
+                            "discount_rate": "r > 0",
+                            "matching_rate": "α"
+                        },
+                        "assumptions": [
+                            "Goods are non-storable",
+                            "Production cost c ≥ 0",
+                            "Random matching of agents"
+                        ]
                     }
-                  },
-                  "Equilibrium Types": {
-                    "key_points": [
-                      "Non-monetary equilibrium",
-                      "Pure monetary equilibrium",
-                      "Mixed strategy equilibrium"
-                    ],
-                    "conditions": {
-                      "monetary_equilibrium": "c < ((1-M)(1-y))/(r + (1-M)(1-y))u",
-                      "mixed_equilibrium": "π0 = π̂"
-                    }
-                  }
                 }
-              },
-              "Welfare Analysis": {
+            },
+            "Kiyotaki-Wright Framework": {
                 "completed": false,
                 "concepts": {
-                  "Social Welfare": {
-                    "formula": "W = MV1 + (1-M)V0",
-                    "key_insights": [
-                      "Trade-off between facilitating trade and crowding out barter",
-                      "Optimal money supply depends on matching probabilities",
-                      "Welfare increases with circulation of money"
-                    ]
-                  },
-                  "Optimal Money Supply": {
-                    "formula": "M* = (1-2y)/(2-2y) if y < 1/2",
-                    "conditions": [
-                      "M* = 0 if y ≥ 1/2",
-                      "Higher y reduces optimal money supply",
-                      "Barter efficiency affects optimal money quantity"
-                    ]
-                  }
+                    "Trading Mechanism": {
+                        "probabilities": {
+                            "single_coincidence": "x",
+                            "double_coincidence": "y",
+                            "matching": "α"
+                        },
+                        "value_functions": {
+                            "with_money": "rV1 = (1-M)π(u + V0 - V1)",
+                            "without_money": "rV0 = y(1-M)(u-c) + Mπ(V1 - V0 - c)"
+                        }
+                    },
+                    "Equilibrium Types": {
+                        "key_points": [
+                            "Non-monetary equilibrium",
+                            "Pure monetary equilibrium",
+                            "Mixed strategy equilibrium"
+                        ],
+                        "conditions": {
+                            "monetary_equilibrium": "c < ((1-M)(1-y))/(r + (1-M)(1-y))u",
+                            "mixed_equilibrium": "π0 = π̂"
+                        }
+                    }
                 }
-              },
-              "Price Endogeneity": {
+            },
+            "Welfare Analysis": {
                 "completed": false,
                 "concepts": {
-                  "Trejos-Wright Model": {
-                    "utility_cost": {
-                      "utility": "u(q) - consumption utility",
-                      "cost": "c(q) - production cost",
-                      "assumptions": [
-                        "u(0) = c(0) = 0",
-                        "u'(0) > c'(0)",
-                        "u'(q̄) = c'(q̄)"
-                      ]
+                    "Social Welfare": {
+                        "formula": "W = MV1 + (1-M)V0",
+                        "key_insights": [
+                            "Trade-off between facilitating trade and crowding out barter",
+                            "Optimal money supply depends on matching probabilities",
+                            "Welfare increases with circulation of money"
+                        ]
                     },
-                    "bargaining": {
-                      "nash_solution": "max[u(q) + V0(Q) - T1]θ × [V1(Q) - c(q) - T0]1-θ",
-                      "constraints": [
-                        "u(q) + V0 ≥ V1",
-                        "V1 - c(q) ≥ V0"
-                      ]
-                    },
-                    "equilibrium": {
-                      "key_properties": [
-                        "q* > qe (price too high)",
-                        "Multiple equilibria possible",
-                        "Non-monetary equilibrium always exists"
-                      ]
+                    "Optimal Money Supply": {
+                        "formula": "M* = (1-2y)/(2-2y) if y < 1/2",
+                        "conditions": [
+                            "M* = 0 if y ≥ 1/2",
+                            "Higher y reduces optimal money supply",
+                            "Barter efficiency affects optimal money quantity"
+                        ]
                     }
-                  }
                 }
-              }
+            },
+            "Price Endogeneity": {
+                "completed": false,
+                "concepts": {
+                    "Trejos-Wright Model": {
+                        "utility_cost": {
+                            "utility": "u(q) - consumption utility",
+                            "cost": "c(q) - production cost",
+                            "assumptions": [
+                                "u(0) = c(0) = 0",
+                                "u'(0) > c'(0)",
+                                "u'(q̄) = c'(q̄)"
+                            ]
+                        },
+                        "bargaining": {
+                            "nash_solution": "max[u(q) + V0(Q) - T1]θ × [V1(Q) - c(q) - T0]1-θ",
+                            "constraints": [
+                                "u(q) + V0 ≥ V1",
+                                "V1 - c(q) ≥ V0"
+                            ]
+                        },
+                        "equilibrium": {
+                            "key_properties": [
+                                "q* > qe (price too high)",
+                                "Multiple equilibria possible",
+                                "Non-monetary equilibrium always exists"
+                            ]
+                        }
+                    }
+                }
             }
-          }
-      }
+        }
+    },
+    "MONEY AND PUBLIC FINANCE": {
+        "completed": false,
+        "sections": {
+            "Government Budget Framework": {
+                "completed": false,
+                "concepts": {
+                    "Basic Accounting": {
+                        "key_equation": "Gt + it-1BTt-1 = Tt + (BTt - BTt-1) + RCBt",
+                        "components": {
+                            "Gt": "Government expenses",
+                            "it-1BTt-1": "Interest payments",
+                            "Tt": "Tax revenue",
+                            "BTt - BTt-1": "Change in bonds",
+                            "RCBt": "Central bank receipts"
+                        },
+                        "key_insights": [
+                            "Three funding sources: taxes, bonds, money creation",
+                            "Relationship between Treasury and Central Bank",
+                            "Role of interest payments in budget constraint"
+                        ]
+                    },
+                    "Central Bank Operations": {
+                        "budget_constraint": "BMt - BMt-1 + RCBt = iMt-1BMt-1 + (Ht - Ht-1)",
+                        "key_variables": {
+                            "BMt": "Central bank bond holdings",
+                            "Ht": "High-powered money",
+                            "iMt": "Interest rate on bonds"
+                        },
+                        "relationships": [
+                            "Link between monetary base and bond holdings",
+                            "Seigniorage revenue generation",
+                            "Interest payment flows"
+                        ]
+                    }
+                }
+            },
+            "Budget Constraints": {
+                "completed": false,
+                "concepts": {
+                    "Real Terms Analysis": {
+                        "main_equation": "gt + r̄t-1bt-1 = tt + (bt - bt-1) + ht - (1/(1+πt))ht-1",
+                        "components": {
+                            "r̄t-1": "Ex-post real rate of return",
+                            "πt": "Inflation rate",
+                            "ht": "Real money balances"
+                        },
+                        "key_relationships": [
+                            "Real interest rate effects",
+                            "Inflation impact on real balances",
+                            "Dynamic budget evolution"
+                        ]
+                    },
+                    "Intertemporal Analysis": {
+                        "present_value": "(1+r)bt-1 + ∑(gt+i/(1+r)i) = ∑((tt+i + st+i)/(1+r)i)",
+                        "constraints": [
+                            "No Ponzi condition",
+                            "Intertemporal solvency",
+                            "Present value of surpluses"
+                        ],
+                        "implications": [
+                            "Long-term sustainability requirements",
+                            "Role of future primary surpluses",
+                            "Debt dynamics constraints"
+                        ]
+                    }
+                }
+            },
+            "Policy Frameworks": {
+                "completed": false,
+                "concepts": {
+                    "Monetary-Fiscal Coordination": {
+                        "regimes": {
+                            "monetary_dominance": {
+                                "characteristics": [
+                                    "Central bank sets monetary policy independently",
+                                    "Fiscal policy adjusts to ensure solvency",
+                                    "Price level determined by money supply"
+                                ]
+                            },
+                            "fiscal_dominance": {
+                                "characteristics": [
+                                    "Fiscal policy set independently",
+                                    "Monetary policy accommodates fiscal needs",
+                                    "Price level affected by fiscal policy"
+                                ]
+                            }
+                        },
+                        "key_implications": [
+                            "Policy coordination essential",
+                            "Regime affects price determination",
+                            "Institutional arrangements matter"
+                        ]
+                    },
+                    "Seigniorage": {
+                        "formula": "st ≡ (Ht - Ht-1)/Pt = (ht - ht-1) + (πt/(1+πt))ht-1",
+                        "components": {
+                            "real_balance_effect": "ht - ht-1",
+                            "inflation_tax": "(πt/(1+πt))ht-1"
+                        },
+                        "steady_state": {
+                            "condition": "θ = π",
+                            "implications": [
+                                "Growth rate equals inflation",
+                                "Constant real balances",
+                                "Revenue maximization consideration"
+                            ]
+                        }
+                    }
+                }
+            },
+            "Deficit Financing": {
+                "completed": false,
+                "concepts": {
+                    "Methods": {
+                        "options": [
+                            "Money creation",
+                            "Bond issuance",
+                            "Tax adjustments"
+                        ],
+                        "trade_offs": {
+                            "money_creation": {
+                                "benefits": "Immediate financing",
+                                "costs": "Inflation pressure"
+                            },
+                            "bond_issuance": {
+                                "benefits": "No immediate inflation",
+                                "costs": "Future tax burden"
+                            }
+                        }
+                    },
+                    "Long-term Implications": {
+                        "considerations": [
+                            "Debt sustainability",
+                            "Inflation expectations",
+                            "Interest rate effects",
+                            "Real economic impact"
+                        ],
+                        "key_constraints": [
+                            "Present value budget constraint",
+                            "No Ponzi condition",
+                            "Fiscal capacity limits"
+                        ]
+                    }
+                }
+            }
+        }
+    }
+}

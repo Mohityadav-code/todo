@@ -1,265 +1,239 @@
 import React, { useState, useEffect } from "react";
-import { ChevronDown, ChevronRight, Check, X } from "lucide-react";
+import { ChevronDown, ChevronRight, Check, X, BookOpen } from "lucide-react";
 import dataJson from "./Data.json";
 
 const StudyTracker = () => {
-    // Initialize state with data from localStorage if it exists, otherwise use initialData
-    const [data, setData] = useState(() => {
-      const savedData = localStorage.getItem("studyProgress");
-      return savedData ? JSON.parse(savedData) : dataJson;
-    });
-    
-    const [expandedSections, setExpandedSections] = useState({});
-    const [activeFlashcard, setActiveFlashcard] = useState(null);
-    const [overallProgress, setOverallProgress] = useState(0);
-  
-    // Calculate progress whenever data changes
-    useEffect(() => {
-      calculateOverallProgress();
-    }, [data]);
-  
-    // Separate useEffect for local storage updates
-    useEffect(() => {
-      try {
-        localStorage.setItem("studyProgress", JSON.stringify(data));
-      } catch (error) {
-        console.error("Failed to save to localStorage:", error);
-      }
-    }, [data]);
-  
-    const calculateOverallProgress = () => {
-      try {
-        let totalSections = 0;
-        let completedSections = 0;
-  
-        Object.values(data).forEach((topic) => {
-          Object.values(topic.sections).forEach((section) => {
-            totalSections++;
-            if (section.completed) completedSections++;
-          });
-        });
-  
-        setOverallProgress((completedSections / totalSections) * 100);
-      } catch (error) {
-        console.error("Error calculating progress:", error);
-        setOverallProgress(0);
-      }
-    };
-  
-    // Add a reset function in case data gets corrupted
-    const resetProgress = () => {
-      try {
-        localStorage.removeItem("studyProgress");
-        setData(dataJson);
-        calculateOverallProgress();
-      } catch (error) {
-        console.error("Error resetting progress:", error);
-      }
-    };
-  
-    // Update the toggleCompletion function to be more robust
-    const toggleCompletion = (topicKey, sectionKey) => {
-      try {
-        setData((prevData) => {
-          const newData = JSON.parse(JSON.stringify(prevData));
-          const topic = newData[topicKey];
-          const section = topic.sections[sectionKey];
-  
-          section.completed = !section.completed;
-          topic.completed = Object.values(topic.sections).every(
-            (section) => section.completed
-          );
-  
-          // Immediately save to localStorage
-          localStorage.setItem("studyProgress", JSON.stringify(newData));
-          return newData;
-        });
-      } catch (error) {
-        console.error("Error toggling completion:", error);
-      }
-    };
-  
-    // Add error boundary to your JSX
-    if (!data) {
-      return (
-        <div className="max-w-4xl mx-auto p-6">
-          <h1 className="text-2xl font-bold mb-6">Error Loading Data</h1>
-          <button 
-            onClick={resetProgress}
-            className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
-          >
-            Reset Progress
-          </button>
-        </div>
-      );
-    }
+  // State initialization with localStorage
+  const [data, setData] = useState(() => {
+    const savedData = localStorage.getItem("studyProgress");
+    return savedData ? JSON.parse(savedData) : dataJson;
+  });
 
-    const toggleSection = (section) => {
-        setExpandedSections((prev) => ({
-          ...prev,
-          [section]: !prev[section],
-        }));
-      };
+  const [completedConcepts, setCompletedConcepts] = useState(() => {
+    const saved = localStorage.getItem("completedConcepts");
+    return saved ? JSON.parse(saved) : {};
+  });
+
+  const [expandedSections, setExpandedSections] = useState({});
+  const [activeFlashcard, setActiveFlashcard] = useState(null);
+  const [overallProgress, setOverallProgress] = useState(0);
+
+  // LocalStorage and Progress Updates
+  useEffect(() => {
+    localStorage.setItem("studyProgress", JSON.stringify(data));
+    localStorage.setItem("completedConcepts", JSON.stringify(completedConcepts));
+    calculateOverallProgress();
+  }, [data, completedConcepts]);
+
+  // Progress calculation
+  const calculateOverallProgress = () => {
+    let total = 0;
+    let completed = 0;
+
+    Object.entries(data).forEach(([topic, topicData]) => {
+      Object.entries(topicData.sections).forEach(([section, sectionData]) => {
+        const concepts = Object.keys(sectionData.concepts);
+        total += concepts.length;
+        completed += concepts.filter(
+          concept => completedConcepts[`${topic}-${section}-${concept}`]
+        ).length;
+      });
+    });
+
+    setOverallProgress((completed / total) * 100);
+  };
+
+  // Basic handlers
+  const toggleSection = (section) => {
+    setExpandedSections(prev => ({ ...prev, [section]: !prev[section] }));
+  };
+
+  const toggleConceptCompletion = (topic, section, concept) => {
+    const key = `${topic}-${section}-${concept}`;
+    setCompletedConcepts(prev => ({ ...prev, [key]: !prev[key] }));
+  };
 
   const showFlashcard = (topic, section, concept) => {
     setActiveFlashcard({
       title: concept,
-      data: data[topic].sections[section].concepts[concept],
+      data: data[topic].sections[section].concepts[concept]
     });
   };
 
-  // Progress Bar Component
-  const ProgressBar = ({ percentage }) => (
-    <div className="w-full bg-gray-200 rounded-full h-4 mb-8">
-      <div
-        className="bg-blue-500 h-4 rounded-full transition-all duration-500"
+  const resetProgress = () => {
+    localStorage.removeItem("studyProgress");
+    localStorage.removeItem("completedConcepts");
+    setData(dataJson);
+    setCompletedConcepts({});
+  };
+
+  // Components
+  const ProgressBar = ({ percentage, small }) => (
+    <div className={`bg-gray-100 rounded-full ${small ? 'h-2' : 'h-4'} w-full overflow-hidden`}>
+      <div 
+        className="bg-blue-500 h-full transition-all duration-500 ease-out"
         style={{ width: `${percentage}%` }}
-      ></div>
-      <div className="text-center mt-2 text-sm text-gray-600">
-        {Math.round(percentage)}% Complete
+      />
+      {!small && (
+        <div className="text-center text-sm mt-1 text-gray-600">
+          {Math.round(percentage)}% Complete
+        </div>
+      )}
+    </div>
+  );
+
+  const FlashcardModal = ({ data, onClose }) => (
+    <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
+      <div className="bg-white rounded-lg max-w-2xl w-full max-h-[80vh] overflow-y-auto">
+        <div className="sticky top-0 bg-white p-4 border-b flex justify-between items-center">
+          <h3 className="text-lg font-bold">{data.title}</h3>
+          <button onClick={onClose} className="hover:bg-gray-100 p-2 rounded-full">
+            <X className="w-5 h-5" />
+          </button>
+        </div>
+        
+        <div className="p-6 space-y-6">
+          {Object.entries(data.data).map(([key, value]) => (
+            <div key={key} className="space-y-2">
+              <h4 className="font-semibold capitalize">{key.split('_').join(' ')}</h4>
+              <div className="bg-gray-50 rounded-lg p-4">
+                {Array.isArray(value) ? (
+                  <ul className="space-y-2">
+                    {value.map((item, i) => (
+                      <li key={i} className="flex gap-2">
+                        <span className="text-blue-500">•</span>
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                ) : typeof value === 'object' ? (
+                  Object.entries(value).map(([subKey, subValue]) => (
+                    <div key={subKey} className="mb-2">
+                      <span className="font-medium">{subKey}:</span> {subValue}
+                    </div>
+                  ))
+                ) : (
+                  <div className="font-mono">{value}</div>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
 
-  // Flashcard Component
-// Updated FlashcardModal Component
-const FlashcardModal = ({ flashcard, onClose }) => {
-    // Helper function to render arrays or objects
-    const renderContent = (content) => {
-      if (Array.isArray(content)) {
-        return (
-          <ul className="list-disc pl-5 space-y-2">
-            {content.map((item, idx) => (
-              <li key={idx}>{item}</li>
-            ))}
-          </ul>
-        );
-      } else if (typeof content === 'object') {
-        return Object.entries(content).map(([key, value]) => (
-          <div key={key} className="ml-4 mt-2">
-            <span className="font-semibold">{key}: </span>
-            {typeof value === 'string' ? (
-              <span>{value}</span>
-            ) : (
-              renderContent(value)
-            )}
-          </div>
-        ));
-      }
-      return <div className="text-lg font-mono">{content}</div>;
-    };
-  
-    return (
-      <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4">
-        <div className="bg-white rounded-lg p-6 max-w-2xl w-full max-h-[80vh] overflow-y-auto">
-          <div className="flex justify-between items-center mb-4">
-            <h3 className="text-xl font-bold">{flashcard.title}</h3>
-            <button
-              onClick={onClose}
-              className="text-gray-500 hover:text-gray-700"
-            >
-              <X />
-            </button>
-          </div>
-  
-          <div className="space-y-6">
-            {Object.entries(flashcard.data).map(([key, value]) => (
-              <div key={key} className="bg-gray-50 p-4 rounded-lg">
-                <h4 className="font-semibold mb-2 capitalize">
-                  {key.split('_').join(' ')}:
-                </h4>
-                {renderContent(value)}
-              </div>
-            ))}
-          </div>
+  const ConceptItem = ({ topic, section, concept, data, isCompleted }) => (
+    <div 
+      className={`
+        p-3 rounded-lg border cursor-pointer
+        ${isCompleted ? 'bg-green-50 border-green-200' : 'bg-white hover:bg-gray-50 border-gray-200'}
+        transition-colors duration-200
+      `}
+      onClick={() => showFlashcard(topic, section, concept)}
+    >
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-3">
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              toggleConceptCompletion(topic, section, concept);
+            }}
+            className={`
+              w-5 h-5 rounded border flex items-center justify-center
+              transition-colors duration-200
+              ${isCompleted ? 'bg-green-500 border-green-500' : 'border-gray-300 hover:border-green-500'}
+            `}
+          >
+            {isCompleted && <Check className="w-3 h-3 text-white" />}
+          </button>
+          <span className="font-medium">{concept}</span>
         </div>
+        <BookOpen className="w-4 h-4 text-gray-400" />
       </div>
-    );
-  };
+    </div>
+  );
 
   return (
-    <div className="max-w-4xl mx-auto p-6">
-      <h1 className="text-2xl font-bold mb-6">Monetary Theory Study Tracker</h1>
+    <div className="max-w-4xl mx-auto p-4 sm:p-6">
+      <div className="flex items-center justify-between mb-6">
+        <h1 className="text-2xl font-bold">Monetary Theory Study Tracker</h1>
+        <button
+          onClick={resetProgress}
+          className="text-sm text-gray-500 hover:text-gray-700"
+        >
+          Reset Progress
+        </button>
+      </div>
 
-      {/* Overall Progress */}
-      <ProgressBar percentage={overallProgress} />
+      <div className="mb-8">
+        <ProgressBar percentage={overallProgress} />
+      </div>
 
-      {/* Main content */}
-      <div className="grid grid-cols-1 gap-6">
+      <div className="space-y-6">
         {Object.entries(data).map(([topic, topicData]) => (
-          <div key={topic} className="bg-white rounded-lg shadow-md p-4">
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-xl font-bold flex items-center gap-2">
-                {topicData.completed ? (
-                  <Check className="text-green-500" />
-                ) : (
-                  <X className="text-red-500" />
-                )}
-                {topic}
-              </h2>
-            </div>
+          <div key={topic} className="border rounded-lg p-4 bg-white shadow-sm">
+            <h2 className="text-xl font-semibold mb-4">{topic}</h2>
 
-            <div className="space-y-4">
-              {Object.entries(topicData.sections).map(
-                ([section, sectionData]) => (
-                  <div key={section} className="border rounded-lg p-4">
+            <div className="space-y-3">
+              {Object.entries(topicData.sections).map(([section, sectionData]) => {
+                const conceptCount = Object.keys(sectionData.concepts).length;
+                const completedCount = Object.keys(sectionData.concepts).filter(
+                  concept => completedConcepts[`${topic}-${section}-${concept}`]
+                ).length;
+
+                return (
+                  <div key={section} className="border rounded-lg p-3">
                     <div
                       className="flex items-center justify-between cursor-pointer"
                       onClick={() => toggleSection(section)}
                     >
-                      <div className="flex items-center gap-2">
-                      <button
-  onClick={(e) => {
-    e.preventDefault(); // Prevent default button behavior
-    e.stopPropagation(); // Stop event from bubbling up to parent
-    toggleCompletion(topic, section);
-  }}
-  className="flex items-center justify-center w-6 h-6 rounded-full border border-gray-300 hover:bg-gray-50"
->
-  {sectionData.completed ? (
-    <Check className="w-4 h-4 text-green-500" />
-  ) : null}
-</button>
-                        <h3 className="text-lg font-semibold">{section}</h3>
+                      <div>
+                        <h3 className="font-medium">{section}</h3>
+                        <div className="text-sm text-gray-500 mt-1">
+                          {completedCount} of {conceptCount} completed
+                        </div>
                       </div>
-                      {expandedSections[section] ? (
-                        <ChevronDown className="w-5 h-5" />
-                      ) : (
-                        <ChevronRight className="w-5 h-5" />
-                      )}
+                      <div className="flex items-center gap-3">
+                        <div className="w-20">
+                          <ProgressBar 
+                            percentage={(completedCount/conceptCount) * 100} 
+                            small 
+                          />
+                        </div>
+                        {expandedSections[section] ? 
+                          <ChevronDown className="w-5 h-5" /> : 
+                          <ChevronRight className="w-5 h-5" />
+                        }
+                      </div>
                     </div>
 
                     {expandedSections[section] && (
-                      <div className="mt-4 space-y-3 pl-2">
-                        {Object.entries(sectionData.concepts).map(
-                          ([concept]) => (
-                            <div
-                            onClick={() =>
-                                showFlashcard(topic, section, concept)
-                              }
-                              key={concept}
-                              className="flex items-center justify-between bg-gray-100 pl-2 py-2 rounded-md"
-                            >
-                              <span>{concept}</span>
-                             
-                            </div>
-                          )
-                        )}
+                      <div className="mt-3 space-y-2 pl-2">
+                        {Object.entries(sectionData.concepts).map(([concept, conceptData]) => (
+                          <ConceptItem
+                            key={concept}
+                            topic={topic}
+                            section={section}
+                            concept={concept}
+                            data={conceptData}
+                            isCompleted={completedConcepts[`${topic}-${section}-${concept}`]}
+                          />
+                        ))}
                       </div>
                     )}
                   </div>
-                )
-              )}
+                );
+              })}
             </div>
           </div>
         ))}
       </div>
 
-      {/* Flashcard Modal */}
       {activeFlashcard && (
-        <FlashcardModal
-          flashcard={activeFlashcard}
-          onClose={() => setActiveFlashcard(null)}
+        <FlashcardModal 
+          data={activeFlashcard} 
+          onClose={() => setActiveFlashcard(null)} 
         />
       )}
     </div>

@@ -90,5 +90,113 @@
               }
             }
           }
-        }
+        },
+        "SEARCH-THEORETIC MODELS": {
+            "completed": false,
+            "sections": {
+              "Foundations": {
+                "completed": false,
+                "concepts": {
+                  "Core Frictions": {
+                    "key_points": [
+                      "Double-coincidence of wants problem",
+                      "Long-run commitment cannot be enforced",
+                      "Agent anonymity - histories not public"
+                    ],
+                    "importance": "Explains why money exists as medium of exchange"
+                  },
+                  "Model Environment": {
+                    "key_parameters": {
+                      "agents": "[0,1] continuum",
+                      "discount_rate": "r > 0",
+                      "matching_rate": "α"
+                    },
+                    "assumptions": [
+                      "Goods are non-storable",
+                      "Production cost c ≥ 0",
+                      "Random matching of agents"
+                    ]
+                  }
+                }
+              },
+              "Kiyotaki-Wright Framework": {
+                "completed": false,
+                "concepts": {
+                  "Trading Mechanism": {
+                    "probabilities": {
+                      "single_coincidence": "x",
+                      "double_coincidence": "y",
+                      "matching": "α"
+                    },
+                    "value_functions": {
+                      "with_money": "rV1 = (1-M)π(u + V0 - V1)",
+                      "without_money": "rV0 = y(1-M)(u-c) + Mπ(V1 - V0 - c)"
+                    }
+                  },
+                  "Equilibrium Types": {
+                    "key_points": [
+                      "Non-monetary equilibrium",
+                      "Pure monetary equilibrium",
+                      "Mixed strategy equilibrium"
+                    ],
+                    "conditions": {
+                      "monetary_equilibrium": "c < ((1-M)(1-y))/(r + (1-M)(1-y))u",
+                      "mixed_equilibrium": "π0 = π̂"
+                    }
+                  }
+                }
+              },
+              "Welfare Analysis": {
+                "completed": false,
+                "concepts": {
+                  "Social Welfare": {
+                    "formula": "W = MV1 + (1-M)V0",
+                    "key_insights": [
+                      "Trade-off between facilitating trade and crowding out barter",
+                      "Optimal money supply depends on matching probabilities",
+                      "Welfare increases with circulation of money"
+                    ]
+                  },
+                  "Optimal Money Supply": {
+                    "formula": "M* = (1-2y)/(2-2y) if y < 1/2",
+                    "conditions": [
+                      "M* = 0 if y ≥ 1/2",
+                      "Higher y reduces optimal money supply",
+                      "Barter efficiency affects optimal money quantity"
+                    ]
+                  }
+                }
+              },
+              "Price Endogeneity": {
+                "completed": false,
+                "concepts": {
+                  "Trejos-Wright Model": {
+                    "utility_cost": {
+                      "utility": "u(q) - consumption utility",
+                      "cost": "c(q) - production cost",
+                      "assumptions": [
+                        "u(0) = c(0) = 0",
+                        "u'(0) > c'(0)",
+                        "u'(q̄) = c'(q̄)"
+                      ]
+                    },
+                    "bargaining": {
+                      "nash_solution": "max[u(q) + V0(Q) - T1]θ × [V1(Q) - c(q) - T0]1-θ",
+                      "constraints": [
+                        "u(q) + V0 ≥ V1",
+                        "V1 - c(q) ≥ V0"
+                      ]
+                    },
+                    "equilibrium": {
+                      "key_properties": [
+                        "q* > qe (price too high)",
+                        "Multiple equilibria possible",
+                        "Non-monetary equilibrium always exists"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
       }

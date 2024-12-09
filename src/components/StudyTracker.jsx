@@ -154,7 +154,9 @@ const StudyTracker = () => {
     </div>
   );
 
-  return (
+ // In your component's return statement, update the mapping code as follows:
+
+return (
     <div className="max-w-4xl mx-auto p-4 sm:p-6">
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-2xl font-bold">Monetary Theory Study Tracker</h1>
@@ -165,63 +167,77 @@ const StudyTracker = () => {
           Reset Progress
         </button>
       </div>
-
+  
       <div className="mb-8">
         <ProgressBar percentage={overallProgress} />
       </div>
-
+  
       <div className="space-y-6">
+        {/* Verify data is being mapped correctly */}
         {Object.entries(data).map(([topic, topicData]) => (
           <div key={topic} className="border rounded-lg p-4 bg-white shadow-sm">
-            <h2 className="text-xl font-semibold mb-4">{topic}</h2>
-
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-xl font-semibold">{topic}</h2>
+              <span className="text-sm text-gray-500">
+                {Object.values(topicData.sections).filter(s => s.completed).length} of{' '}
+                {Object.keys(topicData.sections).length} sections completed
+              </span>
+            </div>
+  
             <div className="space-y-3">
               {Object.entries(topicData.sections).map(([section, sectionData]) => {
                 const conceptCount = Object.keys(sectionData.concepts).length;
                 const completedCount = Object.keys(sectionData.concepts).filter(
                   concept => completedConcepts[`${topic}-${section}-${concept}`]
                 ).length;
-
+  
                 return (
                   <div key={section} className="border rounded-lg p-3">
                     <div
-                      className="flex items-center justify-between cursor-pointer"
+                      className="flex items-center justify-between cursor-pointer select-none"
                       onClick={() => toggleSection(section)}
                     >
                       <div>
-                        <h3 className="font-medium">{section}</h3>
+                        <div className="flex items-center gap-2">
+                          <h3 className="font-medium">{section}</h3>
+                          {completedCount === conceptCount && conceptCount > 0 && (
+                            <Check className="w-4 h-4 text-green-500" />
+                          )}
+                        </div>
                         <div className="text-sm text-gray-500 mt-1">
                           {completedCount} of {conceptCount} completed
                         </div>
                       </div>
                       <div className="flex items-center gap-3">
-                        <div className="w-20">
+                        <div className="w-24">
                           <ProgressBar 
                             percentage={(completedCount/conceptCount) * 100} 
                             small 
                           />
                         </div>
                         {expandedSections[section] ? 
-                          <ChevronDown className="w-5 h-5" /> : 
-                          <ChevronRight className="w-5 h-5" />
+                          <ChevronDown className="w-5 h-5 transition-transform duration-200" /> : 
+                          <ChevronRight className="w-5 h-5 transition-transform duration-200" />
                         }
                       </div>
                     </div>
-
-                    {expandedSections[section] && (
-                      <div className="mt-3 space-y-2 pl-2">
-                        {Object.entries(sectionData.concepts).map(([concept, conceptData]) => (
-                          <ConceptItem
-                            key={concept}
-                            topic={topic}
-                            section={section}
-                            concept={concept}
-                            data={conceptData}
-                            isCompleted={completedConcepts[`${topic}-${section}-${concept}`]}
-                          />
-                        ))}
-                      </div>
-                    )}
+  
+                    <div 
+                      className={`mt-3 space-y-2 pl-2 overflow-hidden transition-all duration-200 ease-in-out ${
+                        expandedSections[section] ? 'max-h-[1000px] opacity-100' : 'max-h-0 opacity-0'
+                      }`}
+                    >
+                      {Object.entries(sectionData.concepts).map(([concept, conceptData]) => (
+                        <ConceptItem
+                          key={`${topic}-${section}-${concept}`}
+                          topic={topic}
+                          section={section}
+                          concept={concept}
+                          data={conceptData}
+                          isCompleted={completedConcepts[`${topic}-${section}-${concept}`]}
+                        />
+                      ))}
+                    </div>
                   </div>
                 );
               })}
@@ -229,7 +245,7 @@ const StudyTracker = () => {
           </div>
         ))}
       </div>
-
+  
       {activeFlashcard && (
         <FlashcardModal 
           data={activeFlashcard} 
@@ -238,6 +254,6 @@ const StudyTracker = () => {
       )}
     </div>
   );
-};
+}
 
 export default StudyTracker;
